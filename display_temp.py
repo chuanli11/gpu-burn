@@ -37,7 +37,7 @@ fig, (ax0) = plt.subplots(1, 1)
 ax0.set_xlim((t[0], t[-1]))
 ax0.set_ylim((0, max(thermal_threshold * 1.1, np.amax(np.amax(temperature)) * 1.25)))
 ax0.set_title('temperature')
-ax0.set_xlabel('Time (sec)')
+ax0.set_xlabel('Progress (percentage)')
 ax0.set_ylabel('Degree (celsius)')		
 for i in range(num_gpu):
 	ax0.plot(t, temperature[i], 'b')
