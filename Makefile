@@ -1,4 +1,4 @@
-CUDAPATH=/usr/local/cuda
+CUDAPATH=/usr/lib/nvidia-cuda-toolkit
 
 # Have this point to an old enough gcc (for nvcc)
 GCCPATH=/usr
