@@ -16,13 +16,13 @@ make
 ### Run Test
 
 ```
-time=200
+time=20
 name="$(hostname)"
 
 num_gpu="$(nvidia-smi --query-gpu=name --format=csv,noheader | wc -l)"
-num_cpu="$(grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}')"
+num_cpu="$(nproc --all)"
 
-./gpu_burn $time | tee "log/"$name".txt" & stress -c num_cpu --timeout ${time}s & ./log_cpu_temp.sh $time $name
+./gpu_burn $time | tee "log/"$name".txt" & stress -c $num_cpu --timeout ${time}s & ./log_cpu_temp.sh $time $name
 
 
 cat "log/"$name".txt" | grep temps | tee "log/"$name"_gpu_temp.txt" 
