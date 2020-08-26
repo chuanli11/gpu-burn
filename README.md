@@ -13,19 +13,21 @@ make
 ### Run Test
 
 ```
-time=100
+time=200
 name="$(hostname)"
 
-./gpu_burn $time | tee "log/"$name".txt" 
+num_gpu="$(nvidia-smi --query-gpu=name --format=csv,noheader | wc -l)"
+num_cpu="$(grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}')"
+
+./gpu_burn $time | tee "log/"$name".txt" & stress -c num_cpu --timeout ${time}s & ./log_cpu_temp.sh $time $name
+
+
+cat "log/"$name".txt" | grep temps | tee "log/"$name"_gpu_temp.txt" 
 ```
 
 
 ### Gather temperature results
 
 ```
-name="$(hostname)"
-num_gpu="$(nvidia-smi --query-gpu=name --format=csv,noheader | wc -l)"
-cat "log/"$name".txt" | grep temps | tee "log/"$name"_temp.txt" 
-
 python display_temp.py $name $num_gpu
 ```
