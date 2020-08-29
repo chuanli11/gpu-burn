@@ -6,6 +6,8 @@ http://wili.cc/blog/gpu-burn.html
 ### Build
 
 ```
+sudo apt install stress
+sudo apt install lm-sensors
 
 make
 ```
