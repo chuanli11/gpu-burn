@@ -35,7 +35,8 @@ def get_cpu_temp(path):
 
 def get_gpu_temp(path):
 	file1 = open(path, 'r') 
-	Lines = file1.readlines()
+
+	Lines = file1.read().splitlines()
 
 	list_temp = []
 	list_step = []
@@ -55,14 +56,14 @@ def get_gpu_temp(path):
 
 # Get temperature
 t_gpu, temperature_gpu = get_gpu_temp(gpu_temp_filename)
-t_cpu, temperature_cpu, num_cpu = get_cpu_temp(cpu_temp_filename)
+# t_cpu, temperature_cpu, num_cpu = get_cpu_temp(cpu_temp_filename)
 
 fig, (ax0, ax1) = plt.subplots(2, 1)
 
 ax0.set_xlim((t_gpu[0], t_gpu[-1]))
 ax0.set_ylim((0, max(gpu_thermal_threshold * 1.1, np.amax(np.amax(temperature_gpu)) * 1.25)))
 ax0.set_title('GPU temperature')
-ax0.set_xlabel('Progress (percentage)')
+ax0.set_xlabel('Progress (step)')
 ax0.set_ylabel('Degree (celsius)')		
 for i in range(num_gpu):
 	ax0.plot(t_gpu, temperature_gpu[i], 'b')
@@ -71,15 +72,15 @@ if gpu_thermal_threshold > 0:
 	ax0.plot(t_gpu, gpu_thermal_threshold * np.ones_like(t_gpu), 'r')
 
 
-ax1.set_xlim((t_cpu[0], t_cpu[-1]))
-ax1.set_ylim((0, max(cpu_thermal_threshold * 1.1, np.amax(np.amax(temperature_cpu)) * 1.25)))
-ax1.set_title('CPU temperature')
-ax1.set_xlabel('Progress (seconds)')
-ax1.set_ylabel('Degree (celsius)')		
-for i in range(num_cpu):
-	ax1.plot(t_cpu, temperature_cpu[i], 'b')
+# ax1.set_xlim((t_cpu[0], t_cpu[-1]))
+# ax1.set_ylim((0, max(cpu_thermal_threshold * 1.1, np.amax(np.amax(temperature_cpu)) * 1.25)))
+# ax1.set_title('CPU temperature')
+# ax1.set_xlabel('Progress (seconds)')
+# ax1.set_ylabel('Degree (celsius)')		
+# for i in range(num_cpu):
+# 	ax1.plot(t_cpu, temperature_cpu[i], 'b')
 
-if cpu_thermal_threshold > 0:
-	ax1.plot(t_cpu, cpu_thermal_threshold * np.ones_like(t_cpu), 'r')
+# if cpu_thermal_threshold > 0:
+# 	ax1.plot(t_cpu, cpu_thermal_threshold * np.ones_like(t_cpu), 'r')
 
 plt.show()
